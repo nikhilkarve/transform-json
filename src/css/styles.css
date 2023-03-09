@@ -2,4 +2,23 @@
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	height: 100vh;
+
+	/* background-color: rgb(241, 241, 241); */
+}
+
+.btnGenerate {
+	border: none;
+	padding: 10px;
+	display: flex;
+	width: 80px;
+	background-color: rgb(66, 65, 65);
+	color: rgb(255, 251, 251);
+	margin-left: 40%;
+	width: 80px;
+	margin-bottom: 2%;
+	border-radius: 10px;
+}
+
+body {
+	background: rgb(28, 27, 27);
 }

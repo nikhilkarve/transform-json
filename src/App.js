@@ -7,7 +7,7 @@ import Editor from '@monaco-editor/react';
 import ReactJson from 'react-json-view';
 
 function App() {
-	const [theme] = useState('light');
+	const [theme] = useState('vs-dark');
 	const [language] = useState('python');
 
 	const [inputData, setInputData] = useLocalStorage(
@@ -31,19 +31,9 @@ function App() {
 		console.log('here is the current code value:', value);
 		setCodeData(value);
 	}
-	// const evalCode = () => {
-	// 	try {
-	// 		const output = eval(`const inputData = ${inputData};
-	// ${codeData}
-	// `);
-	// 		setOutputData(output);
-	// 	} catch (error) {
-	// 		setOutputData(error);
-	// 	}
-	// };
-	const evalCodePy = () => {
+	const evalCode = () => {
 		try {
-			const output = eval(`inputData = ${inputData};
+			const output = eval(`const inputData = ${inputData};
   ${codeData}
   `);
 			setOutputData(output);
@@ -53,13 +43,16 @@ function App() {
 	};
 
 	useEffect(() => {
-		// evalCode();
-		evalCodePy();
+		evalCode();
 	}, []);
 
 	return (
 		<div className='editorBox'>
-			<textarea value={inputData} onChange={handleInputChange} />
+			<textarea
+				value={inputData}
+				onChange={handleInputChange}
+				style={{ background: 'rgb(28, 27, 27)', color: '#149414' }}
+			/>
 			<Editor
 				height='calc(100% - 19px)'
 				theme={theme}
@@ -69,9 +62,11 @@ function App() {
 				onChange={handleEditorChange}
 			/>
 			<div>
-				<button onClick={evalCodePy}>Generate</button>
+				<button onClick={evalCode} className='btnGenerate'>
+					Generate
+				</button>
 				{outputData && Object.keys(outputData)?.length ? (
-					<ReactJson src={outputData} />
+					<ReactJson src={outputData} theme='monokai' />
 				) : (
 					<textarea disabled value={outputData} />
 				)}
