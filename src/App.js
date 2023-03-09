@@ -7,8 +7,13 @@ import Editor from '@monaco-editor/react';
 import ReactJson from 'react-json-view';
 
 function App() {
+	/*---------------- Theme for Monaco editor. If not specified "light" is default.----------------------- */
+
 	const [theme] = useState('vs-dark');
-	const [language] = useState('python');
+	const [language] = useState('javascript');
+
+	/* -------------- Using local storage to store input and output data. Using data from posts.json initially. 
+  Also, using basic filter query in code editor initially.-----------------*/
 
 	const [inputData, setInputData] = useLocalStorage(
 		'input',
@@ -21,16 +26,23 @@ function App() {
   outputData`
 	);
 	const [outputData, setOutputData] = useState('output', '');
+
+	/* ------------------- Helper function to handle change in the input textarea. Updating state for inputData ------------- */
+
 	function handleInputChange(event) {
 		const { value } = event.target;
-		console.log('here is the current input value:', value);
 		setInputData(value);
 	}
+
+	/*-------------------- Handling change in the code editor. Setting codeData state.--------------------------- */
 
 	function handleEditorChange(value) {
 		console.log('here is the current code value:', value);
 		setCodeData(value);
 	}
+
+	/* ------------------- Using JS eval() function to evaluate JS query entered in the code editor and setting output values acordingly. */
+
 	const evalCode = () => {
 		try {
 			const output = eval(`const inputData = ${inputData};
@@ -42,6 +54,7 @@ function App() {
 		}
 	};
 
+	/* -------------------------- On the first render. ---------------- */
 	useEffect(() => {
 		evalCode();
 	}, []);
